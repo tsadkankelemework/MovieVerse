@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for proper document structure and responsive design -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieVerse - Your Movie Discovery Hub</title>
+    
+    <!-- Link to external CSS file for styling -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Font Awesome for icons (CDN link) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Main container that wraps all content -->
+    <div class="container">
+        <!-- Header section with app title and theme toggle -->
+        <header class="header">
+            <div class="header-content">
+                <!-- App logo and title -->
+                <h1 class="logo">
+                    <i class="fas fa-film"></i>
+                    MovieVerse
+                </h1>
+                
+                <!-- Theme toggle switch -->
+                <div class="theme-toggle">
+                    <input type="checkbox" id="theme-switch" class="theme-switch">
+                    <label for="theme-switch" class="theme-label">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main content area -->
+        <main class="main">
+            <!-- Navigation tabs for switching between search and favorites -->
+            <nav class="nav-tabs">
+                <button class="tab-btn active" data-tab="search">
+                    <i class="fas fa-search"></i>
+                    Search Movies
+                </button>
+                <button class="tab-btn" data-tab="favorites">
+                    <i class="fas fa-heart"></i>
+                    Favorites (<span id="favorites-count">0</span>)
+                </button>
+            </nav>
+
+            <!-- Search tab content -->
+            <div class="tab-content active" id="search-tab">
+                <!-- Search form -->
+                <div class="search-section">
+                    <form class="search-form" id="search-form">
+                        <div class="search-input-group">
+                            <input 
+                                type="text" 
+                                id="search-input" 
+                                placeholder="Search for movies..." 
+                                required
+                                autocomplete="off"
+                            >
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Loading spinner (hidden by default) -->
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Searching for movies...</p>
+                </div>
+
+                <!-- Error message container (hidden by default) -->
+                <div class="error-message" id="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p id="error-text"></p>
+                </div>
+
+                <!-- Search results container -->
+                <div class="results-section">
+                    <div class="results-header" id="results-header" style="display: none;">
+                        <h2 id="results-title"></h2>
+                        <p id="results-count"></p>
+                    </div>
+                    
+                    <!-- Grid container for movie cards -->
+                    <div class="movies-grid" id="movies-grid"></div>
+                    
+                    <!-- Load more button for pagination -->
+                    <div class="load-more-section" id="load-more-section" style="display: none;">
+                        <button class="load-more-btn" id="load-more-btn">
+                            Load More Movies
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favorites tab content -->
+            <div class="tab-content" id="favorites-tab">
+                <div class="favorites-section">
+                    <h2>Your Favorite Movies</h2>
+                    
+                    <!-- Empty state for when no favorites exist -->
+                    <div class="empty-state" id="empty-favorites">
+                        <i class="fas fa-heart-broken"></i>
+                        <h3>No favorites yet</h3>
+                        <p>Start adding movies to your favorites by clicking the heart icon!</p>
+                    </div>
+                    
+                    <!-- Grid container for favorite movie cards -->
+                    <div class="movies-grid" id="favorites-grid"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for displaying detailed movie information -->
+    <div class="modal" id="movie-modal">
+        <div class="modal-content">
+            <!-- Modal header with close button -->
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <button class="close-btn" id="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Modal body with movie details -->
+            <div class="modal-body" id="modal-body">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript files - loaded in order of dependency -->
+    <script src="api.js"></script>
+    <script src="favorites.js"></script>
+    <script src="theme.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
