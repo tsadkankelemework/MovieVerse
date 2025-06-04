@@ -1,146 +1,565 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta tags for proper document structure and responsive design -->
+    <!-- Essential meta tags for proper document structure and SEO -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MovieVerse - Your Movie Discovery Hub</title>
+    <meta name="description" content="MovieVerse - Your ultimate movie discovery platform with trailers, reviews, and personalized recommendations">
+    <meta name="keywords" content="movies, trailers, reviews, recommendations, watchlist, favorites">
+    <meta name="author" content="MovieVerse Team">
     
-    <!-- Link to external CSS file for styling -->
+    <!-- Page title displayed in browser tab -->
+    <title>MovieVerse - Ultimate Movie Discovery Platform</title>
+    
+    <!-- PWA manifest for app-like experience -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon and app icons for different devices -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
+    
+    <!-- External CSS libraries for enhanced styling -->
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Font Awesome for icons (CDN link) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Font Awesome for comprehensive icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts for beautiful typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#1a1a2e">
 </head>
 <body>
-    <!-- Main container that wraps all content -->
-    <div class="container">
-        <!-- Header section with app title and theme toggle -->
+    <!-- Main application container with gradient background -->
+    <div class="app-container">
+        
+        <!-- Enhanced header with navigation and user controls -->
         <header class="header">
             <div class="header-content">
-                <!-- App logo and title -->
-                <h1 class="logo">
-                    <i class="fas fa-film"></i>
-                    MovieVerse
-                </h1>
+                <!-- App logo with animated icon -->
+                <div class="logo-section">
+                    <div class="logo">
+                        <i class="fas fa-film logo-icon"></i>
+                        <span class="logo-text">MovieVerse</span>
+                        <span class="logo-subtitle">Ultimate Discovery</span>
+                    </div>
+                </div>
                 
-                <!-- Theme toggle switch -->
-                <div class="theme-toggle">
-                    <input type="checkbox" id="theme-switch" class="theme-switch">
-                    <label for="theme-switch" class="theme-label">
-                        <i class="fas fa-sun"></i>
-                        <i class="fas fa-moon"></i>
-                    </label>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main content area -->
-        <main class="main">
-            <!-- Navigation tabs for switching between search and favorites -->
-            <nav class="nav-tabs">
-                <button class="tab-btn active" data-tab="search">
-                    <i class="fas fa-search"></i>
-                    Search Movies
-                </button>
-                <button class="tab-btn" data-tab="favorites">
-                    <i class="fas fa-heart"></i>
-                    Favorites (<span id="favorites-count">0</span>)
-                </button>
-            </nav>
-
-            <!-- Search tab content -->
-            <div class="tab-content active" id="search-tab">
-                <!-- Search form -->
-                <div class="search-section">
-                    <form class="search-form" id="search-form">
-                        <div class="search-input-group">
-                            <input 
-                                type="text" 
-                                id="search-input" 
-                                placeholder="Search for movies..." 
-                                required
-                                autocomplete="off"
-                            >
-                            <button type="submit" class="search-btn">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Loading spinner (hidden by default) -->
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p>Searching for movies...</p>
-                </div>
-
-                <!-- Error message container (hidden by default) -->
-                <div class="error-message" id="error-message">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p id="error-text"></p>
-                </div>
-
-                <!-- Search results container -->
-                <div class="results-section">
-                    <div class="results-header" id="results-header" style="display: none;">
-                        <h2 id="results-title"></h2>
-                        <p id="results-count"></p>
+                <!-- User controls section -->
+                <div class="user-controls">
+                    <!-- Theme toggle with smooth animation -->
+                    <div class="theme-toggle">
+                        <input type="checkbox" id="theme-switch" class="theme-switch">
+                        <label for="theme-switch" class="theme-label">
+                            <i class="fas fa-sun sun-icon"></i>
+                            <i class="fas fa-moon moon-icon"></i>
+                            <div class="toggle-slider"></div>
+                        </label>
                     </div>
                     
-                    <!-- Grid container for movie cards -->
-                    <div class="movies-grid" id="movies-grid"></div>
-                    
-                    <!-- Load more button for pagination -->
-                    <div class="load-more-section" id="load-more-section" style="display: none;">
-                        <button class="load-more-btn" id="load-more-btn">
-                            Load More Movies
+                    <!-- User authentication section -->
+                    <div class="auth-section">
+                        <div class="user-menu" id="user-menu" style="display: none;">
+                            <img src="/placeholder.svg?height=40&width=40" alt="User Avatar" class="user-avatar" id="user-avatar">
+                            <span class="user-name" id="user-name">Guest User</span>
+                            <div class="user-dropdown">
+                                <button class="dropdown-item" id="profile-btn">
+                                    <i class="fas fa-user"></i> Profile
+                                </button>
+                                <button class="dropdown-item" id="settings-btn">
+                                    <i class="fas fa-cog"></i> Settings
+                                </button>
+                                <button class="dropdown-item" id="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                        <button class="auth-btn" id="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
                         </button>
                     </div>
                 </div>
             </div>
+        </header>
 
-            <!-- Favorites tab content -->
-            <div class="tab-content" id="favorites-tab">
-                <div class="favorites-section">
-                    <h2>Your Favorite Movies</h2>
-                    
-                    <!-- Empty state for when no favorites exist -->
-                    <div class="empty-state" id="empty-favorites">
-                        <i class="fas fa-heart-broken"></i>
-                        <h3>No favorites yet</h3>
-                        <p>Start adding movies to your favorites by clicking the heart icon!</p>
-                    </div>
-                    
-                    <!-- Grid container for favorite movie cards -->
-                    <div class="movies-grid" id="favorites-grid"></div>
+        <!-- Enhanced navigation with more sections -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <!-- Primary navigation tabs -->
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="discover">
+                        <i class="fas fa-compass"></i>
+                        <span>Discover</span>
+                    </button>
+                    <button class="nav-tab" data-tab="search">
+                        <i class="fas fa-search"></i>
+                        <span>Search</span>
+                    </button>
+                    <button class="nav-tab" data-tab="watchlist">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Watchlist</span>
+                        <span class="count-badge" id="watchlist-count">0</span>
+                    </button>
+                    <button class="nav-tab" data-tab="favorites">
+                        <i class="fas fa-heart"></i>
+                        <span>Favorites</span>
+                        <span class="count-badge" id="favorites-count">0</span>
+                    </button>
+                    <button class="nav-tab" data-tab="reviews">
+                        <i class="fas fa-star"></i>
+                        <span>Reviews</span>
+                    </button>
+                </div>
+                
+                <!-- Quick action buttons -->
+                <div class="quick-actions">
+                    <button class="quick-btn" id="random-movie-btn" title="Get Random Movie">
+                        <i class="fas fa-dice"></i>
+                    </button>
+                    <button class="quick-btn" id="share-app-btn" title="Share App">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
                 </div>
             </div>
+        </nav>
+
+        <!-- Main content area with all tab sections -->
+        <main class="main-content">
+            
+            <!-- Discover Tab - Featured movies and recommendations -->
+            <section class="tab-content active" id="discover-tab">
+                <div class="discover-section">
+                    <!-- Hero section with featured movie -->
+                    <div class="hero-section" id="hero-section">
+                        <div class="hero-content">
+                            <div class="hero-info">
+                                <h1 class="hero-title" id="hero-title">Loading...</h1>
+                                <p class="hero-description" id="hero-description">Discovering amazing movies for you...</p>
+                                <div class="hero-actions">
+                                    <button class="hero-btn primary" id="hero-watch-btn">
+                                        <i class="fas fa-play"></i> Watch Trailer
+                                    </button>
+                                    <button class="hero-btn secondary" id="hero-details-btn">
+                                        <i class="fas fa-info-circle"></i> More Info
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="hero-poster" id="hero-poster">
+                                <img src="/placeholder.svg?height=600&width=400" alt="Featured Movie" id="hero-image">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Trending movies carousel -->
+                    <div class="section-container">
+                        <h2 class="section-title">
+                            <i class="fas fa-fire"></i> Trending Now
+                        </h2>
+                        <div class="movies-carousel" id="trending-carousel">
+                            <!-- Trending movies will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Personalized recommendations -->
+                    <div class="section-container">
+                        <h2 class="section-title">
+                            <i class="fas fa-magic"></i> Recommended for You
+                        </h2>
+                        <div class="movies-carousel" id="recommendations-carousel">
+                            <!-- Recommendations will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Top rated movies -->
+                    <div class="section-container">
+                        <h2 class="section-title">
+                            <i class="fas fa-trophy"></i> Top Rated
+                        </h2>
+                        <div class="movies-carousel" id="toprated-carousel">
+                            <!-- Top rated movies will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Enhanced Search Tab with advanced filters -->
+            <section class="tab-content" id="search-tab">
+                <div class="search-section">
+                    <!-- Advanced search form with filters -->
+                    <div class="search-container">
+                        <form class="search-form" id="search-form">
+                            <div class="search-input-container">
+                                <div class="search-input-group">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input 
+                                        type="text" 
+                                        id="search-input" 
+                                        placeholder="Search movies, actors, directors..." 
+                                        autocomplete="off"
+                                        class="search-input"
+                                    >
+                                    <button type="button" class="voice-search-btn" id="voice-search-btn" title="Voice Search">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                    <button type="submit" class="search-submit-btn">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Advanced filters toggle -->
+                                <button type="button" class="filters-toggle" id="filters-toggle">
+                                    <i class="fas fa-filter"></i>
+                                    <span>Filters</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Advanced filters panel -->
+                            <div class="filters-panel" id="filters-panel">
+                                <div class="filters-grid">
+                                    <!-- Genre filter -->
+                                    <div class="filter-group">
+                                        <label class="filter-label">Genre</label>
+                                        <select class="filter-select" id="genre-filter">
+                                            <option value="">All Genres</option>
+                                            <option value="action">Action</option>
+                                            <option value="adventure">Adventure</option>
+                                            <option value="animation">Animation</option>
+                                            <option value="comedy">Comedy</option>
+                                            <option value="crime">Crime</option>
+                                            <option value="documentary">Documentary</option>
+                                            <option value="drama">Drama</option>
+                                            <option value="family">Family</option>
+                                            <option value="fantasy">Fantasy</option>
+                                            <option value="horror">Horror</option>
+                                            <option value="music">Music</option>
+                                            <option value="mystery">Mystery</option>
+                                            <option value="romance">Romance</option>
+                                            <option value="science fiction">Sci-Fi</option>
+                                            <option value="thriller">Thriller</option>
+                                            <option value="war">War</option>
+                                            <option value="western">Western</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Year range filter -->
+                                    <div class="filter-group">
+                                        <label class="filter-label">Year Range</label>
+                                        <div class="year-range">
+                                            <input type="number" class="year-input" id="year-from" placeholder="From" min="1900" max="2024">
+                                            <span class="year-separator">-</span>
+                                            <input type="number" class="year-input" id="year-to" placeholder="To" min="1900" max="2024">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Rating filter -->
+                                    <div class="filter-group">
+                                        <label class="filter-label">Minimum Rating</label>
+                                        <div class="rating-filter">
+                                            <input type="range" class="rating-slider" id="rating-filter" min="0" max="10" step="0.1" value="0">
+                                            <span class="rating-value" id="rating-value">0.0</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Sort options -->
+                                    <div class="filter-group">
+                                        <label class="filter-label">Sort By</label>
+                                        <select class="filter-select" id="sort-filter">
+                                            <option value="relevance">Relevance</option>
+                                            <option value="year">Year (Newest)</option>
+                                            <option value="year-asc">Year (Oldest)</option>
+                                            <option value="rating">Rating (Highest)</option>
+                                            <option value="rating-asc">Rating (Lowest)</option>
+                                            <option value="title">Title (A-Z)</option>
+                                            <option value="title-desc">Title (Z-A)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- Filter actions -->
+                                <div class="filter-actions">
+                                    <button type="button" class="filter-btn clear" id="clear-filters">
+                                        <i class="fas fa-times"></i> Clear All
+                                    </button>
+                                    <button type="button" class="filter-btn apply" id="apply-filters">
+                                        <i class="fas fa-check"></i> Apply Filters
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Search results section -->
+                    <div class="results-section">
+                        <!-- Loading state -->
+                        <div class="loading-state" id="search-loading">
+                            <div class="loading-spinner"></div>
+                            <p class="loading-text">Searching movies...</p>
+                        </div>
+
+                        <!-- Error state -->
+                        <div class="error-state" id="search-error">
+                            <i class="fas fa-exclamation-triangle error-icon"></i>
+                            <h3 class="error-title">Oops! Something went wrong</h3>
+                            <p class="error-message" id="search-error-message"></p>
+                            <button class="retry-btn" id="search-retry">
+                                <i class="fas fa-redo"></i> Try Again
+                            </button>
+                        </div>
+
+                        <!-- Results header -->
+                        <div class="results-header" id="search-results-header">
+                            <div class="results-info">
+                                <h2 class="results-title" id="search-results-title"></h2>
+                                <p class="results-count" id="search-results-count"></p>
+                            </div>
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="grid" title="Grid View">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" data-view="list" title="List View">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Movies grid/list -->
+                        <div class="movies-container" id="search-movies-container">
+                            <div class="movies-grid" id="search-movies-grid"></div>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination-section" id="search-pagination">
+                            <button class="pagination-btn" id="load-more-btn">
+                                <i class="fas fa-plus"></i> Load More Movies
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Watchlist Tab -->
+            <section class="tab-content" id="watchlist-tab">
+                <div class="watchlist-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-bookmark"></i> My Watchlist
+                        </h2>
+                        <div class="section-actions">
+                            <button class="action-btn" id="clear-watchlist-btn">
+                                <i class="fas fa-trash"></i> Clear All
+                            </button>
+                            <button class="action-btn" id="export-watchlist-btn">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Empty state -->
+                    <div class="empty-state" id="watchlist-empty">
+                        <div class="empty-icon">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                        <h3 class="empty-title">Your watchlist is empty</h3>
+                        <p class="empty-description">Add movies you want to watch later</p>
+                        <button class="empty-action-btn" data-tab="discover">
+                            <i class="fas fa-compass"></i> Discover Movies
+                        </button>
+                    </div>
+                    
+                    <!-- Watchlist grid -->
+                    <div class="movies-grid" id="watchlist-grid"></div>
+                </div>
+            </section>
+
+            <!-- Favorites Tab -->
+            <section class="tab-content" id="favorites-tab">
+                <div class="favorites-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-heart"></i> My Favorites
+                        </h2>
+                        <div class="section-actions">
+                            <button class="action-btn" id="clear-favorites-btn">
+                                <i class="fas fa-trash"></i> Clear All
+                            </button>
+                            <button class="action-btn" id="export-favorites-btn">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Empty state -->
+                    <div class="empty-state" id="favorites-empty">
+                        <div class="empty-icon">
+                            <i class="fas fa-heart-broken"></i>
+                        </div>
+                        <h3 class="empty-title">No favorites yet</h3>
+                        <p class="empty-description">Start adding movies you love</p>
+                        <button class="empty-action-btn" data-tab="discover">
+                            <i class="fas fa-compass"></i> Discover Movies
+                        </button>
+                    </div>
+                    
+                    <!-- Favorites grid -->
+                    <div class="movies-grid" id="favorites-grid"></div>
+                </div>
+            </section>
+
+            <!-- Reviews Tab -->
+            <section class="tab-content" id="reviews-tab">
+                <div class="reviews-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-star"></i> My Reviews
+                        </h2>
+                        <div class="section-actions">
+                            <button class="action-btn" id="write-review-btn">
+                                <i class="fas fa-pen"></i> Write Review
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews list -->
+                    <div class="reviews-list" id="reviews-list">
+                        <!-- Reviews will be populated here -->
+                    </div>
+                    
+                    <!-- Empty state -->
+                    <div class="empty-state" id="reviews-empty">
+                        <div class="empty-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="empty-title">No reviews yet</h3>
+                        <p class="empty-description">Share your thoughts about movies</p>
+                        <button class="empty-action-btn" id="start-reviewing-btn">
+                            <i class="fas fa-pen"></i> Write Your First Review
+                        </button>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
-    <!-- Modal for displaying detailed movie information -->
-    <div class="modal" id="movie-modal">
-        <div class="modal-content">
-            <!-- Modal header with close button -->
+    <!-- Enhanced Movie Details Modal -->
+    <div class="modal-overlay" id="movie-modal">
+        <div class="modal-container">
             <div class="modal-header">
-                <h2 id="modal-title"></h2>
-                <button class="close-btn" id="close-modal">
+                <h2 class="modal-title" id="modal-title">Movie Details</h2>
+                <button class="modal-close-btn" id="modal-close-btn">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
-            <!-- Modal body with movie details -->
-            <div class="modal-body" id="modal-body">
-                <!-- Content will be dynamically inserted here -->
+            <div class="modal-content" id="modal-content">
+                <!-- Movie details will be populated here -->
             </div>
         </div>
     </div>
 
-    <!-- JavaScript files - loaded in order of dependency -->
+    <!-- Trailer Modal -->
+    <div class="modal-overlay" id="trailer-modal">
+        <div class="trailer-modal-container">
+            <div class="trailer-header">
+                <h3 class="trailer-title" id="trailer-title">Movie Trailer</h3>
+                <button class="modal-close-btn" id="trailer-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="trailer-content">
+                <div class="trailer-player" id="trailer-player">
+                    <!-- YouTube player will be embedded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal-overlay" id="review-modal">
+        <div class="review-modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Write a Review</h2>
+                <button class="modal-close-btn" id="review-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="review-form-container">
+                <form class="review-form" id="review-form">
+                    <div class="movie-info-preview" id="review-movie-info">
+                        <!-- Selected movie info will appear here -->
+                    </div>
+                    
+                    <div class="rating-input-group">
+                        <label class="form-label">Your Rating</label>
+                        <div class="star-rating" id="star-rating">
+                            <i class="fas fa-star" data-rating="1"></i>
+                            <i class="fas fa-star" data-rating="2"></i>
+                            <i class="fas fa-star" data-rating="3"></i>
+                            <i class="fas fa-star" data-rating="4"></i>
+                            <i class="fas fa-star" data-rating="5"></i>
+                        </div>
+                        <span class="rating-text" id="rating-text">Click to rate</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="review-title">Review Title</label>
+                        <input type="text" class="form-input" id="review-title" placeholder="Give your review a title..." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="review-content">Your Review</label>
+                        <textarea class="form-textarea" id="review-content" placeholder="Share your thoughts about this movie..." rows="6" required></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="form-btn secondary" id="cancel-review">Cancel</button>
+                        <button type="submit" class="form-btn primary">
+                            <i class="fas fa-paper-plane"></i> Submit Review
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Offline Indicator -->
+    <div class="offline-indicator" id="offline-indicator">
+        <i class="fas fa-wifi-slash"></i>
+        <span>You're offline. Some features may not work.</span>
+    </div>
+
+    <!-- JavaScript Files - Load in dependency order -->
+    <!-- Core utilities and configuration -->
+    <script src="config.js"></script>
+    <script src="utils.js"></script>
+    
+    <!-- Data management -->
+    <script src="storage.js"></script>
     <script src="api.js"></script>
-    <script src="favorites.js"></script>
+    
+    <!-- Feature modules -->
+    <script src="auth.js"></script>
     <script src="theme.js"></script>
-    <script src="main.js"></script>
+    <script src="favorites.js"></script>
+    <script src="watchlist.js"></script>
+    <script src="reviews.js"></script>
+    <script src="recommendations.js"></script>
+    <script src="trailers.js"></script>
+    <script src="social.js"></script>
+    
+    <!-- UI components -->
+    <script src="ui.js"></script>
+    <script src="modals.js"></script>
+    <script src="notifications.js"></script>
+    
+    <!-- Main application -->
+    <script src="app.js"></script>
+    
+    <!-- Service worker registration for PWA -->
+    <script src="sw-register.js"></script>
 </body>
 </html>
