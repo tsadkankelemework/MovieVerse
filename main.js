@@ -1,4 +1,8 @@
-// // Main application logic for MovieVerse
+// Import necessary modules (assuming these are in separate files)
+import { movieAPI } from './api.js';
+import { favoritesManager } from './favorites.js';
+
+// Main application logic for MovieVerse
 class MovieVerse {
     constructor() {
         // Application state
